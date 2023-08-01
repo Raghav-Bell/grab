@@ -1,3 +1,8 @@
+![build](https://img.shields.io/github/actions/workflow/status/Raghav-Bell/graby/rust.yml)
+![version](https://img.shields.io/crates/v/graby.svg)
+![version_downloades](https://img.shields.io/crates/d/graby/0.1.0)
+![License](https://img.shields.io/crates/l/graby/0.1.0)
+
 
 # Introduction
 This is a small implementation of `grep` command line tool in rust (see References). 
