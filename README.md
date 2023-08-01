@@ -10,7 +10,21 @@ Unlike `grep` this implementation does not support `regex`.
 For complete implementation of `grep` in rust, check <a href="https://github.com/BurntSushi/ripgrep"> `ripgrep`</a>.
 
 ## Installation
-Updated soon.
+For running or installing `graby`, install [`rust`](https://www.rust-lang.org/tools/install).
+To add `graby` run the following `cargo` command in your project directory:
+```
+cargo add graby
+```
+or manually add following in `Cargo.toml` file.
+```
+graby = "0.1.0"
+```
+To build `graby` from source you need to install rust on your device and run the following commands:
+```
+git clone https://github.com/Raghav-Bell/graby.git
+cd graby
+cargo run -- --help
+```
 ## Usage
 For searching `QUERY` pattern in `FILE_PATH` use following command:
 ```
@@ -20,7 +34,8 @@ For more options run
 ```
 graby --help
 ```
-It is licensed under MIT.
+or check [documentation](https://docs.rs/graby/0.1.0/graby/).
+<br>It is licensed under MIT.
 ## How to Contribute
 All small or large contributions are welcomed .
 ## References
