@@ -6,6 +6,7 @@ authors = ["Raghav <raghavsingla327@gmail.com>"]
 license = "MIT"
 description = "Search and print matching patterns in given file."
 readme = "README.md"
+documentation = ""
 homepage = "https://github.com/Raghav-Bell/graby"
 repository = "https://github.com/Raghav-Bell/graby"
 keywords = ["cli", "search", "graby","grep"]
