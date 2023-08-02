@@ -38,7 +38,7 @@ jobs:
         run: rustup component add rustfmt
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
+        uses: wearerequired/lint-action@v2.3
         with:
           clippy: true
           rustfmt: true
