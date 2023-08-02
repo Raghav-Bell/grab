@@ -20,12 +20,12 @@ permissions:
 jobs:
   run-linters:
     name: Run linters
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-      # INstalling Rust
+      # Installing Rust
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
       
@@ -33,9 +33,9 @@ jobs:
      
       # Install your linters here
       - name: Installing clippy
-      -  run: rustup component add clippy
+        run: rustup component add clippy
       - name: Installing clippy
-      - run: rustup component add rustfmt
+        run: rustup component add rustfmt
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
