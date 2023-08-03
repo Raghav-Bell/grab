@@ -17,7 +17,7 @@ cargo add graby
 ```
 or manually add following in `Cargo.toml` file.
 ```
-graby = "0.1.0"
+graby = "0.1.1" # graby = "version"
 ```
 To build `graby` from source you need to install rust on your device and run the following commands:
 ```
