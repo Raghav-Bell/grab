@@ -28,17 +28,7 @@ jobs:
       # Installing Rust
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
-      
-      
-     
-      # Install your linters here
-      - name: Installing clippy
-        run: rustup component add clippy
-      - name: Installing clippy
-        run: rustup component add rustfmt
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          clippy: true
-          rustfmt: true
+      - name: Lint (clippy)
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Format (rustfmt)
+        run: cargo fmt --all -- --check
