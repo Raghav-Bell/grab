@@ -1,5 +1,6 @@
 #![allow(unused)]
 use anyhow::{Context, Result};
+pub mod regex_feature;
 use clap::Parser;
 use std::io::{self, read_to_string, BufRead, BufReader, Write};
 use std::{error::Error, fs::File, path::PathBuf};
@@ -11,6 +12,9 @@ pub struct Config {
     /// Pattern to search in the file.
     #[arg(short, long)]
     pub query: String,
+    /// Take pattern as regular expression.
+    #[arg(short = 'r', long)]
+    pub regex_match: bool,
     /// Path to the file.
     #[arg(short, long)]
     pub file_path: PathBuf,
@@ -21,8 +25,17 @@ pub struct Config {
     #[arg(short = 'v', long)]
     pub invert_match: bool,
 }
-/// Search for the query pattern in the given file and display the lines that contain it.
+/// Checks if pattern is regular expression or not.
 pub fn run(config: Config) -> Result<()> {
+    if config.regex_match {
+        regex_feature::run_regex(config)
+    } else {
+        run_string(config)
+    }
+}
+
+/// Search for the string query in the given file and display the lines that contain it.
+pub fn run_string(config: Config) -> Result<()> {
     // Open the file
     let file = File::open(&config.file_path)
         .with_context(|| format!("could not open the file `{:?}`", &config.file_path))?;
@@ -30,7 +43,7 @@ pub fn run(config: Config) -> Result<()> {
     let reader = BufReader::new(file);
     let contents = read_to_string(reader)
         .with_context(|| format!("could not read the file `{:?}`", &config.file_path))?;
-    // Searching for the query with ignore_case option in the contents.
+    // Searching for the query string with ignore_case option in the contents.
     let results = if config.ignore_case {
         search_case_insensitive(&config.query, &contents, config.invert_match)
     } else {
@@ -43,7 +56,7 @@ pub fn run(config: Config) -> Result<()> {
     }
     Ok(())
 }
-/// This function search for the query with exact case.
+/// This function search for the query string with exact case.
 pub fn search<'a>(query: &str, contents: &'a str, invert: bool) -> Vec<&'a str> {
     let mut results = Vec::new();
     //Branches if invert_match option is active or not.
@@ -62,9 +75,9 @@ pub fn search<'a>(query: &str, contents: &'a str, invert: bool) -> Vec<&'a str> 
     }
     results
 }
-/// This function search for the query without case distinction.
+/// This function search for the query string without case distinction.
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str, invert: bool) -> Vec<&'a str> {
-    // Lower the case of query pattern.
+    // Lower the case of query string.
     let query = query.to_lowercase();
     let mut results = Vec::new();
     if invert {
@@ -87,7 +100,7 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str, invert: bool)
 mod tests {
     use super::*;
     #[test]
-    // Test for case sensitive search function.
+    // Test for case sensitive `search` function.
     fn case_sensitive() {
         let query = "duct";
         let contents = "\
@@ -101,7 +114,7 @@ Duckt three.";
     }
 
     #[test]
-    // Test for case search_case_insensitive function.
+    // Test for `case search_case_insensitive function`.
     fn case_insensitive() {
         let query = "rUsT";
         let contents = "\
@@ -115,7 +128,7 @@ Trust me.";
         );
     }
     #[test]
-    // Test for the invert_match option.
+    // Test for the `invert_match` option.
     fn invert_search() {
         let query = "Duckt";
         let contents = "\
